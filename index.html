@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#f7f5ef" />
+<title>VocabFlow · 生词本</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="VocabFlow" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%235b5bd6'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia,serif' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%235b5bd6'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia,serif' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <a class="brand" href="#home" data-tab="home" aria-label="返回首页">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-text">VocabFlow<small>生词本</small></span>
+    </a>
+    <div class="topbar-actions">
+      <div class="streak-pill" id="streakPill" title="连续学习天数">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.7-3 1.5-4.2C9 8.5 9.5 10 10.5 10c1.2 0 1.5-1.6 1.5-3 0-2 0-3 0-5z"/></svg>
+        <span id="streakText">0 天</span>
+      </div>
+      <button class="icon-btn" id="themeToggle" title="切换浅色 / 深色" aria-label="切换主题">
+        <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>
+      </button>
+      <button class="icon-btn" id="settingsBtn" title="设置" aria-label="设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav" aria-label="主导航">
+    <button class="nav-item" data-tab="home"><span class="nav-ico">⌂</span><span>首页</span></button>
+    <button class="nav-item" data-tab="add"><span class="nav-ico">＋</span><span>添加</span></button>
+    <button class="nav-item" data-tab="library"><span class="nav-ico">☰</span><span>词库</span></button>
+    <button class="nav-item" data-tab="bank"><span class="nav-ico">▤</span><span>词书</span></button>
+    <button class="nav-item" data-tab="listen"><span class="nav-ico">🎧</span><span>听力</span></button>
+    <button class="nav-item" data-tab="learn"><span class="nav-ico">▷</span><span>学习</span></button>
+    <button class="nav-item" data-tab="review"><span class="nav-ico">◈</span><span>复习</span></button>
+    <button class="nav-item" data-tab="quiz"><span class="nav-ico">✎</span><span>测验</span></button>
+  </nav>
+
+  <main id="view" class="view" tabindex="-1"></main>
+
+  <footer class="footer">
+    <span>VocabFlow · 数据保存在本机浏览器，请定期导出备份</span>
+  </footer>
+</div>
+
+<!-- 编辑 / 手动新增弹窗 -->
+<dialog class="modal" id="editDialog" aria-labelledby="editTitle">
+  <form class="modal-inner" id="editForm" method="dialog" novalidate>
+    <div class="modal-head">
+      <h2 id="editTitle">编辑单词</h2>
+      <button class="icon-btn" type="button" data-close-dialog aria-label="关闭">✕</button>
+    </div>
+    <div class="field-grid">
+      <label class="field field-span">
+        <span>单词 / 词组 <b class="req">*</b></span>
+        <input name="term" id="editTerm" autocomplete="off" spellcheck="false" required />
+        <em class="field-msg" data-msg-for="term"></em>
+      </label>
+      <label class="field">
+        <span>音标</span>
+        <input name="phonetic" id="editPhonetic" placeholder="/ˈwɜːd/" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>级别 / 词书</span>
+        <input name="level" id="editLevel" placeholder="CET-4 / CET-6 …" autocomplete="off" list="editLevelList" />
+        <datalist id="editLevelList">
+          <option value="CET-4"></option><option value="CET-6"></option><option value="考研"></option>
+          <option value="商务"></option><option value="雅思"></option><option value="托福"></option><option value="GRE"></option>
+        </datalist>
+      </label>
+      <label class="field">
+        <span>词性</span>
+        <select name="pos" id="editPos">
+          <option value="">未标注</option>
+          <option value="n.">n. 名词</option>
+          <option value="v.">v. 动词</option>
+          <option value="adj.">adj. 形容词</option>
+          <option value="adv.">adv. 副词</option>
+          <option value="prep.">prep. 介词</option>
+          <option value="conj.">conj. 连词</option>
+          <option value="phr.">phr. 词组</option>
+          <option value="其他">其他</option>
+        </select>
+      </label>
+      <label class="field field-span">
+        <span>释义 <b class="req">*</b></span>
+        <textarea name="meaning" id="editMeaning" rows="2" placeholder="中文释义，可以写多个义项" required></textarea>
+        <em class="field-msg" data-msg-for="meaning"></em>
+      </label>
+      <label class="field field-span">
+        <span>例句</span>
+        <textarea name="example" id="editExample" rows="2" placeholder="英文例句（可选）"></textarea>
+      </label>
+      <label class="field field-span">
+        <span>例句翻译（中文，可选）</span>
+        <textarea name="exampleZh" id="editExampleZh" rows="2" placeholder="例句的中文翻译，留空可在学习卡片上一键在线翻译"></textarea>
+      </label>
+      <label class="field field-span">
+        <span>标签</span>
+        <input name="tags" id="editTags" placeholder="用空格或逗号分隔，如：CET-4 商务" autocomplete="off" />
+      </label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" type="button" data-close-dialog>取消</button>
+      <button class="btn btn-primary" type="submit">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 批量导入确认弹窗 -->
+<dialog class="modal" id="importDialog" aria-labelledby="importTitle">
+  <form class="modal-inner modal-wide" method="dialog" novalidate>
+    <div class="modal-head">
+      <h2 id="importTitle">确认导入</h2>
+      <button class="icon-btn" type="button" data-close-dialog aria-label="关闭">✕</button>
+    </div>
+    <p class="modal-desc" id="importSummary">共识别 0 个单词。</p>
+    <div class="import-preview" id="importPreview"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" type="button" data-close-dialog>取消</button>
+      <button class="btn btn-primary" type="button" id="importConfirm">导入</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 设置弹窗 -->
+<dialog class="modal" id="settingsDialog" aria-labelledby="settingsTitle">
+  <form class="modal-inner" id="settingsForm" method="dialog">
+    <div class="modal-head">
+      <h2 id="settingsTitle">设置</h2>
+      <button class="icon-btn" type="button" data-close-dialog aria-label="关闭">✕</button>
+    </div>
+    <div class="field-grid">
+      <label class="field">
+        <span>每次新词上限</span>
+        <input type="number" id="setNewLimit" min="0" max="100" step="1" />
+      </label>
+      <label class="field">
+        <span>每次复习上限</span>
+        <input type="number" id="setReviewLimit" min="1" max="200" step="1" />
+      </label>
+      <label class="field field-span">
+        <span>默认学习范围</span>
+        <select id="setScope">
+          <option value="全部">全部词库</option>
+        </select>
+      </label>
+      <label class="field field-span">
+        <span>发音朗读</span>
+        <select id="setVoice">
+          <option value="">自动（系统默认美音优先）</option>
+        </select>
+      </label>
+      <label class="field field-span">
+        <span>测验题量</span>
+        <input type="number" id="setQuizSize" min="4" max="50" step="1" />
+      </label>
+    </div>
+    <p class="hint">提示：发音使用系统语音，可在系统的“语言与地区”里安装英语语音包。</p>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" type="button" id="resetDataBtn">清空全部数据</button>
+      <button class="btn btn-primary" type="submit">保存设置</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+<script src="wordbook-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
